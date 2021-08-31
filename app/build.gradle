@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "pessoto.android.mercadofinanceiro"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.versionKotlin"
+    implementation "androidx.core:core-ktx:$versionKTX"
+    implementation "androidx.appcompat:appcompat:$versionAppCompat"
+    implementation "com.google.android.material:material:$versionMaterial"
+    implementation "androidx.constraintlayout:constraintlayout:$versionConstraintLayout"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion"
+
+    //Dependencias do Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versionRetrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versionRetrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versionRetrofitInterceptor"
+
+    //Dependencia do GSON
+    implementation "com.google.code.gson:gson:$versionGson"
+
+    testImplementation "junit:junit:$versionJUnit"
+    androidTestImplementation "androidx.test.ext:junit:$versionAndroidXJUnit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versionExpresso"
+}

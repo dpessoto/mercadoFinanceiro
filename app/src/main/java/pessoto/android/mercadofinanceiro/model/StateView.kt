@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.model
+package pessoto.android.mercadofinanceiro.model
 
 sealed class StateView<out T> {
     object Loading : StateView<Nothing>()

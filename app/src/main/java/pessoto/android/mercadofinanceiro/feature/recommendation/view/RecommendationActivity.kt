@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.feature.recommendation.view
+package pessoto.android.mercadofinanceiro.feature.recommendation.view
 
 import android.os.Bundle
 import android.view.View
@@ -7,17 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pessoto.mercadofinanceiro.data.repository.RecommendationRepository
-import br.com.pessoto.mercadofinanceiro.data.repository.RecommendationRepositoryImpl
 import br.com.pessoto.mercadofinanceiro.databinding.ActivityRecommendationBinding
-import br.com.pessoto.mercadofinanceiro.feature.recommendation.viewModel.RecommendationViewModel
-import br.com.pessoto.mercadofinanceiro.model.StateView
-import br.com.pessoto.mercadofinanceiro.model.StockRecommendation
-import pessoto.android.mercadofinanceiro.feature.recommendation.view.RecommendationAdapter
+import pessoto.android.mercadofinanceiro.feature.recommendation.viewModel.RecommendationViewModel
+import pessoto.android.mercadofinanceiro.model.StateView
+import pessoto.android.mercadofinanceiro.model.StockRecommendation
+import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepositoryImpl
+import pessoto.android.mercadofinanceiro.util.Dialogs
+import pessoto.android.mercadofinanceiro.util.DialogsCallback
+import java.net.UnknownHostException
 
 
 class RecommendationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecommendationBinding
+
+    private var listRecommendation = listOf<StockRecommendation>()
 
     private val repository: RecommendationRepository by lazy {
         RecommendationRepositoryImpl()
@@ -27,21 +31,65 @@ class RecommendationActivity : AppCompatActivity() {
         RecommendationViewModel(repository)
     }
 
-    private lateinit var recommendationAdapter: RecommendationAdapter
+    private val recommendationAdapter by lazy {
+        RecommendationAdapter { stock ->
+            Toast.makeText(this, stock.symbol, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private val callbackDialog = object :
+        DialogsCallback {
+        override fun callbackPositiveClick() {
+            viewModel.getRecommendation()
+        }
+
+        override fun callbackNegativeClick() {
+            finish()
+        }
+    }
 
     private val observer = Observer<StateView<List<StockRecommendation>>> { stateView ->
         when (stateView) {
             is StateView.Loading -> {
-                Toast.makeText(this, "loading", Toast.LENGTH_SHORT).show()
+                binding.progressBarRecommendation.visibility = View.VISIBLE
             }
             is StateView.DataLoaded -> {
-                Toast.makeText(this, "Carregou", Toast.LENGTH_SHORT).show()
                 binding.progressBarRecommendation.visibility = View.GONE
-                recommendationAdapter.updateList(stateView.data)
-
+                listRecommendation = stateView.data
+                recommendationAdapter.updateList(listRecommendation)
             }
             is StateView.Error -> {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                binding.progressBarRecommendation.visibility = View.GONE
+
+                if (listRecommendation.isEmpty()) {
+                    val title = "Erro inesperado"
+                    var message = "Ocorreu um erro ao recuperar os dados!"
+                    val positive = "Tentar novamente"
+                    val negative = "Fechar"
+
+                    if (stateView.e is UnknownHostException) {
+                        message = "Sem conexão com a internet!"
+                        Dialogs.showDialog(
+                            this,
+                            title,
+                            message,
+                            positive,
+                            negative,
+                            false,
+                            callbackDialog
+                        )
+                    } else {
+                        Dialogs.showDialog(
+                            this,
+                            title,
+                            message,
+                            positive,
+                            negative,
+                            false,
+                            callbackDialog
+                        )
+                    }
+                }
             }
         }
     }
@@ -53,10 +101,6 @@ class RecommendationActivity : AppCompatActivity() {
         setContentView(view)
 
         supportActionBar?.title = "Recomendação"
-
-        recommendationAdapter = RecommendationAdapter { stock ->
-            Toast.makeText(this, stock.companyName, Toast.LENGTH_LONG).show()
-        }
 
         binding.rcRecommendation.apply {
             adapter = recommendationAdapter
@@ -75,6 +119,7 @@ class RecommendationActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         viewModel.stateView.removeObserver(observer)
+        Dialogs.cancelDialog()
     }
 
 }

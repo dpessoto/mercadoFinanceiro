@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.model
+package pessoto.android.mercadofinanceiro.model
 
 import com.google.gson.annotations.SerializedName
 

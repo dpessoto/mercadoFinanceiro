@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.data.network
+package pessoto.android.mercadofinanceiro.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

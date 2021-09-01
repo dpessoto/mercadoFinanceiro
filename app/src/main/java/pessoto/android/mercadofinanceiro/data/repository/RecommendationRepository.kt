@@ -1,6 +1,6 @@
 package br.com.pessoto.mercadofinanceiro.data.repository
 
-import br.com.pessoto.mercadofinanceiro.model.StockRecommendation
+import pessoto.android.mercadofinanceiro.model.StockRecommendation
 
 interface RecommendationRepository {
     suspend fun getRecommendation() : ResultRepository<List<StockRecommendation>>

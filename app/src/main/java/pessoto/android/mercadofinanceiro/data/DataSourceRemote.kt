@@ -1,6 +1,6 @@
-package br.com.pessoto.mercadofinanceiro.data
+package pessoto.android.mercadofinanceiro.data
 
-import br.com.pessoto.mercadofinanceiro.data.network.NetworkClient
+import pessoto.android.mercadofinanceiro.data.network.NetworkClient
 
 class DataSourceRemote {
 

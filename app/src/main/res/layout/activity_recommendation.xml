@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#272B34"
+    android:background="#14171c"
     android:fitsSystemWindows="true"
-    tools:context=".feature.recommendation.view.RecommendationActivity">
+    tools:context="pessoto.android.mercadofinanceiro.feature.recommendation.view.RecommendationActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcRecommendation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

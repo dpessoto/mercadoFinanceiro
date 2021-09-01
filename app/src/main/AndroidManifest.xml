@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MercadoFinanceiro">
         <activity
-            android:name=".feature.recommendation.view.RecommendationActivity"
+            android:name="pessoto.android.mercadofinanceiro.feature.recommendation.view.RecommendationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

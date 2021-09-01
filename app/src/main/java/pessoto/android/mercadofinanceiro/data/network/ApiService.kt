@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.data.network
+package pessoto.android.mercadofinanceiro.data.network
 
 import com.google.gson.JsonObject
 import retrofit2.http.GET

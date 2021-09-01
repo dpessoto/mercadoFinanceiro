@@ -2,23 +2,33 @@ package pessoto.android.mercadofinanceiro.feature.recommendation.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import br.com.pessoto.mercadofinanceiro.databinding.AdapterRecommendationBinding
-import br.com.pessoto.mercadofinanceiro.model.StockRecommendation
+import pessoto.android.mercadofinanceiro.model.StockRecommendation
 
-class RecommendationAdapter(    private val onClick: (StockRecommendation) -> Unit
+class RecommendationAdapter(
+    private val onClick: (StockRecommendation) -> Unit
 ) : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>() {
 
     private var stockList = listOf<StockRecommendation>()
 
-    inner class ViewHolder(private val binding: AdapterRecommendationBinding, val onClick: (StockRecommendation) -> Unit) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(stock: StockRecommendation, position: Int){
+    inner class ViewHolder(
+        private val binding: AdapterRecommendationBinding,
+        val onClick: (StockRecommendation) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(stock: StockRecommendation, position: Int) {
             binding.root.setOnClickListener {
                 onClick(stock)
             }
 
             binding.apply {
-                txtTicker.text = stock.companyName
+                txtTicker.text = stock.symbol
+                txtCompanyName.text = stock.companyName
+                txtCompanyName.setOnLongClickListener {
+                    Toast.makeText(it.context, stock.companyName, Toast.LENGTH_SHORT).show()
+                    true
+                }
             }
         }
     }
@@ -29,7 +39,8 @@ class RecommendationAdapter(    private val onClick: (StockRecommendation) -> Un
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = AdapterRecommendationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            AdapterRecommendationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding, onClick)
     }
 

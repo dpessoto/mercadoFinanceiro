@@ -1,4 +1,4 @@
-package br.com.pessoto.mercadofinanceiro.data.repository
+package pessoto.android.mercadofinanceiro.data.repository
 
 import pessoto.android.mercadofinanceiro.model.StockRecommendation
 

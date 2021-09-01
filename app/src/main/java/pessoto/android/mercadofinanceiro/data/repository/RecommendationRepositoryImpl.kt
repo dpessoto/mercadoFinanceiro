@@ -1,7 +1,5 @@
 package pessoto.android.mercadofinanceiro.data.repository
 
-import br.com.pessoto.mercadofinanceiro.data.repository.RecommendationRepository
-import br.com.pessoto.mercadofinanceiro.data.repository.ResultRepository
 import com.google.gson.GsonBuilder
 import pessoto.android.mercadofinanceiro.data.DataSourceRemote
 import pessoto.android.mercadofinanceiro.model.HubResponse

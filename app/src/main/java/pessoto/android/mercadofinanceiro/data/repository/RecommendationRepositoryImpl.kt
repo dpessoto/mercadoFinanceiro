@@ -6,9 +6,9 @@ import pessoto.android.mercadofinanceiro.model.HubResponse
 import pessoto.android.mercadofinanceiro.model.StockRecommendation
 
 class RecommendationRepositoryImpl : RecommendationRepository {
-    override suspend fun getRecommendation(): ResultRepository<List<StockRecommendation>> {
+    override suspend fun getAllRecommendation(): ResultRepository<List<StockRecommendation>> {
         try {
-            val result = HubResponse(DataSourceRemote().getRecommendation()).getResult()
+            val result = HubResponse(DataSourceRemote().getAllRecommendation()).getResult()
             return if (result != null) {
                 val resultArray = result.first
                 val range = result.second

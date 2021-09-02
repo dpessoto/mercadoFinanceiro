@@ -22,7 +22,7 @@ class RecommendationViewModel(private val repository: RecommendationRepository) 
         viewModelScope.launch {
             _stateView.value = StateView.Loading
 
-            when (val result = repository.getRecommendation()) {
+            when (val result = repository.getAllRecommendation()) {
                 is ResultRepository.Success -> {
                     _stateView.value = StateView.DataLoaded(result.data)
                 }

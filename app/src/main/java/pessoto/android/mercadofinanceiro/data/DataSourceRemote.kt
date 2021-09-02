@@ -6,6 +6,6 @@ class DataSourceRemote {
 
     private val service = NetworkClient().service()
 
-    suspend fun getRecommendation() = service.getRecommendation()
+    suspend fun getAllRecommendation() = service.getAllRecommendation()
 
 }

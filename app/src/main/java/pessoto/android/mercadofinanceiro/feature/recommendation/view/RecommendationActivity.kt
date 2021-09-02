@@ -42,6 +42,12 @@ class RecommendationActivity : BaseActivity() {
         }
     }
 
+    private val filterRecommendationAdapter by lazy {
+        FilterRecommendationAdapter { filter ->
+            Toast.makeText(this, filter.value, Toast.LENGTH_LONG).show()
+        }
+    }
+
     private val callbackDialog = object :
         DialogsCallback {
         override fun callbackPositiveClick() {
@@ -94,6 +100,12 @@ class RecommendationActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(this@RecommendationActivity)
         }
 
+        binding.rcFilter.apply {
+            adapter = filterRecommendationAdapter
+            val linearLayoutManager = LinearLayoutManager(this@RecommendationActivity)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            layoutManager = linearLayoutManager
+        }
     }
 
     override fun onResume() {

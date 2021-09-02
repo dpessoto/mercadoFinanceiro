@@ -23,6 +23,11 @@ class RecommendationActivity : BaseActivity() {
 
     private var listRecommendation = listOf<StockRecommendation>()
 
+    private val titleDialog = "Erro inesperado"
+    private var messageDialog = "Ocorreu um erro ao recuperar os dados!"
+    private val positiveDialog = "Tentar novamente"
+    private val negativeDialog = "Fechar"
+
     private val repository: RecommendationRepository by lazy {
         RecommendationRepositoryImpl()
     }
@@ -63,37 +68,18 @@ class RecommendationActivity : BaseActivity() {
                 binding.progressBarRecommendation.visibility = View.GONE
 
                 if (listRecommendation.isEmpty()) {
-                    val title = "Erro inesperado"
-                    var message = "Ocorreu um erro ao recuperar os dados!"
-                    val positive = "Tentar novamente"
-                    val negative = "Fechar"
-
                     if (stateView.e is UnknownHostException) {
-                        message = "Sem conexão com a internet!"
-                        Dialogs.showDialog(
-                            this,
-                            title,
-                            message,
-                            positive,
-                            negative,
-                            false,
-                            callbackDialog
-                        )
+                        messageDialog = "Sem conexão com a internet!"
+                        showDialog()
                     } else {
-                        Dialogs.showDialog(
-                            this,
-                            title,
-                            message,
-                            positive,
-                            negative,
-                            false,
-                            callbackDialog
-                        )
+                        showDialog()
                     }
                 }
             }
         }
     }
+
+    private fun showDialog() = Dialogs.showDialog(context = this, title = titleDialog, message = messageDialog, positiveButton = positiveDialog, negativeButton = negativeDialog, cancelable = false, callback = callbackDialog)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +87,7 @@ class RecommendationActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
-        supportActionBar?.title = "Recomendação"
+        supportActionBar?.hide()
 
         binding.rcRecommendation.apply {
             adapter = recommendationAdapter

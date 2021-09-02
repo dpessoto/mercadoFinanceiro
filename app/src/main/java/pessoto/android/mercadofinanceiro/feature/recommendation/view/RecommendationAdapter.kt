@@ -1,7 +1,9 @@
 package pessoto.android.mercadofinanceiro.feature.recommendation.view
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
@@ -30,20 +32,26 @@ class RecommendationAdapter(
             binding.apply {
                 txtTicker.text = stock.symbol
                 txtCompanyName.text = stock.companyName
+                txtValue.text = stock.currentPrice
+                txtRecommendation.text = stock.recommendation
+                txtRecommendation.setBackgroundResource(stock.getRecommendationDrawble())
+
                 txtCompanyName.setOnLongClickListener {
                     Toast.makeText(it.context, stock.companyName, Toast.LENGTH_SHORT).show()
                     true
                 }
                 
-                Picasso.get().load(stock.imageUrl).into(imageView, object : Callback {
+                Picasso.get().load(stock.imageUrl).into(imageStock, object : Callback {
                     override fun onSuccess() {
-                        val imageBitmap = (imageView.drawable as BitmapDrawable).bitmap
+                        progressBar.visibility = View.GONE
+                        imageStock.visibility = View.VISIBLE
+                        val imageBitmap = (imageStock.drawable as BitmapDrawable).bitmap
                         val imageDrawable =
-                            RoundedBitmapDrawableFactory.create(imageView.resources, imageBitmap)
+                            RoundedBitmapDrawableFactory.create(imageStock.resources, imageBitmap)
                         imageDrawable.isCircular = true
                         imageDrawable.cornerRadius =
                             max(imageBitmap.width, imageBitmap.height) / 8.0f
-                        imageView.setImageDrawable(imageDrawable)
+                        imageStock.setImageDrawable(imageDrawable)
                     }
 
                     override fun onError(e: Exception?) {
@@ -54,6 +62,7 @@ class RecommendationAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(listOfTodos: List<StockRecommendation>) {
         stockList = listOfTodos
         notifyDataSetChanged()

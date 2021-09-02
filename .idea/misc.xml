@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/drawable/backgroud_recommendation.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/drawable/backgroud_recommendation_neutral.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/drawable/backgroud_recommendation_sell.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/layout/activity_base.xml" value="0.1953125" />
         <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/layout/activity_main.xml" value="0.209375" />
         <entry key="..\:/Users/dpess/Documents/android/MercadoFinanceiro/app/src/main/res/layout/activity_recommendation.xml" value="0.25" />

@@ -6,9 +6,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.pessoto.mercadofinanceiro.databinding.ActivityRecommendationBinding
+import org.json.JSONException
 import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepository
 import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepositoryImpl
 import pessoto.android.mercadofinanceiro.feature.recommendation.viewModel.RecommendationViewModel
+import pessoto.android.mercadofinanceiro.model.FilterRecommendation
 import pessoto.android.mercadofinanceiro.model.StateView
 import pessoto.android.mercadofinanceiro.model.StockRecommendation
 import pessoto.android.mercadofinanceiro.util.view.BaseActivity
@@ -22,6 +24,9 @@ class RecommendationActivity : BaseActivity() {
     private lateinit var binding: ActivityRecommendationBinding
 
     private var listRecommendation = listOf<StockRecommendation>()
+
+    private var filter = FilterRecommendation.Filter.ALL
+    private var filterCurrent: FilterRecommendation.Filter? = null
 
     private val titleDialog = "Erro inesperado"
     private var messageDialog = "Ocorreu um erro ao recuperar os dados!"
@@ -44,14 +49,15 @@ class RecommendationActivity : BaseActivity() {
 
     private val filterRecommendationAdapter by lazy {
         FilterRecommendationAdapter { filter ->
-            Toast.makeText(this, filter.value, Toast.LENGTH_LONG).show()
+            this.filter = filter
+            viewModel.getRecommendation(filter)
         }
     }
 
     private val callbackDialog = object :
         DialogsCallback {
         override fun callbackPositiveClick() {
-            viewModel.getRecommendation()
+            viewModel.getRecommendation(filter)
         }
 
         override fun callbackNegativeClick() {
@@ -68,24 +74,33 @@ class RecommendationActivity : BaseActivity() {
                 binding.progressBarRecommendation.visibility = View.GONE
                 listRecommendation = stateView.data
                 recommendationAdapter.updateList(listRecommendation)
+                filterCurrent = filter
                 Dialogs.cancelDialog()
             }
             is StateView.Error -> {
                 binding.progressBarRecommendation.visibility = View.GONE
 
-                if (listRecommendation.isEmpty()) {
-                    if (stateView.e is UnknownHostException) {
+                when {
+                    stateView.e is UnknownHostException && filter != filterCurrent -> {
                         messageDialog = "Sem conexão com a internet!"
                         showDialog()
-                    } else {
-                        showDialog()
                     }
+                    stateView.e is JSONException -> recommendationAdapter.updateList(listOf())
+                    else -> showDialog()
                 }
             }
         }
     }
 
-    private fun showDialog() = Dialogs.showDialog(context = this, title = titleDialog, message = messageDialog, positiveButton = positiveDialog, negativeButton = negativeDialog, cancelable = false, callback = callbackDialog)
+    private fun showDialog() = Dialogs.showDialog(
+        context = this,
+        title = titleDialog,
+        message = messageDialog,
+        positiveButton = positiveDialog,
+        negativeButton = negativeDialog,
+        cancelable = false,
+        callback = callbackDialog
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +127,7 @@ class RecommendationActivity : BaseActivity() {
         super.onResume()
         binding.progressBarRecommendation.visibility = View.VISIBLE
         viewModel.stateView.observe(this, observer)
-        viewModel.getRecommendation()
+        viewModel.getRecommendation(filter)
     }
 
     override fun onStop() {

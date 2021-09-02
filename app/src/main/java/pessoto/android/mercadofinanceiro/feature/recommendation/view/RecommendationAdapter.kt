@@ -1,11 +1,16 @@
 package pessoto.android.mercadofinanceiro.feature.recommendation.view
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.recyclerview.widget.RecyclerView
 import br.com.pessoto.mercadofinanceiro.databinding.AdapterRecommendationBinding
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import pessoto.android.mercadofinanceiro.model.StockRecommendation
+import kotlin.math.max
 
 class RecommendationAdapter(
     private val onClick: (StockRecommendation) -> Unit
@@ -29,6 +34,22 @@ class RecommendationAdapter(
                     Toast.makeText(it.context, stock.companyName, Toast.LENGTH_SHORT).show()
                     true
                 }
+                
+                Picasso.get().load(stock.imageUrl).into(imageView, object : Callback {
+                    override fun onSuccess() {
+                        val imageBitmap = (imageView.drawable as BitmapDrawable).bitmap
+                        val imageDrawable =
+                            RoundedBitmapDrawableFactory.create(imageView.resources, imageBitmap)
+                        imageDrawable.isCircular = true
+                        imageDrawable.cornerRadius =
+                            max(imageBitmap.width, imageBitmap.height) / 8.0f
+                        imageView.setImageDrawable(imageDrawable)
+                    }
+
+                    override fun onError(e: Exception?) {
+
+                    }
+                })
             }
         }
     }

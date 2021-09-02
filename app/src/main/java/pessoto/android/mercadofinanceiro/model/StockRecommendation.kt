@@ -48,7 +48,8 @@ class StockRecommendation {
         return when (_recomendation) {
             "buy" -> R.drawable.backgroud_recommendation_buy
             "sell" -> R.drawable.backgroud_recommendation_sell
-            else -> R.drawable.backgroud_recommendation_neutral
+            "neutral" -> R.drawable.backgroud_recommendation_neutral
+            else -> R.drawable.backgroud_recommendation_restricted
         }
     }
 }

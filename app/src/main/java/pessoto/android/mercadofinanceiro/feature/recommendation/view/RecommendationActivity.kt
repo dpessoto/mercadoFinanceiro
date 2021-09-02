@@ -3,21 +3,21 @@ package pessoto.android.mercadofinanceiro.feature.recommendation.view
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepository
 import br.com.pessoto.mercadofinanceiro.databinding.ActivityRecommendationBinding
+import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepository
+import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepositoryImpl
 import pessoto.android.mercadofinanceiro.feature.recommendation.viewModel.RecommendationViewModel
 import pessoto.android.mercadofinanceiro.model.StateView
 import pessoto.android.mercadofinanceiro.model.StockRecommendation
-import pessoto.android.mercadofinanceiro.data.repository.RecommendationRepositoryImpl
-import pessoto.android.mercadofinanceiro.util.Dialogs
-import pessoto.android.mercadofinanceiro.util.DialogsCallback
+import pessoto.android.mercadofinanceiro.util.view.BaseActivity
+import pessoto.android.mercadofinanceiro.util.view.Dialogs
+import pessoto.android.mercadofinanceiro.util.view.DialogsCallback
 import java.net.UnknownHostException
 
 
-class RecommendationActivity : AppCompatActivity() {
+class RecommendationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRecommendationBinding
 

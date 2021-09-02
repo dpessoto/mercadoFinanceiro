@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MercadoFinanceiro">
         <activity
-            android:name="pessoto.android.mercadofinanceiro.feature.recommendation.view.RecommendationActivity"
+            android:name="pessoto.android.mercadofinanceiro.util.view.BaseActivity"
+            android:exported="true" />
+        <activity
+            android:name="pessoto.android.mercadofinanceiro.feature.home.MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="pessoto.android.mercadofinanceiro.feature.recommendation.view.RecommendationActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

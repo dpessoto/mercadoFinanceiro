@@ -1,4 +1,4 @@
-package pessoto.android.mercadofinanceiro.util
+package pessoto.android.mercadofinanceiro.util.view
 
 import android.app.AlertDialog
 import android.content.Context

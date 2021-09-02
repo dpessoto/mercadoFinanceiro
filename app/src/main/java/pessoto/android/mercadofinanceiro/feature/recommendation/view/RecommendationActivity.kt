@@ -57,6 +57,7 @@ class RecommendationActivity : BaseActivity() {
                 binding.progressBarRecommendation.visibility = View.GONE
                 listRecommendation = stateView.data
                 recommendationAdapter.updateList(listRecommendation)
+                Dialogs.cancelDialog()
             }
             is StateView.Error -> {
                 binding.progressBarRecommendation.visibility = View.GONE
